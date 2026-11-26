@@ -1,0 +1,19 @@
+ print("""           
+           🙏 JAI SHRI VENKATESWARA SWAMI 🙏 
+            .--.
+           /    \\
+          | .--. |
+          | |  | |   GOVINDA GOVINDA
+           \\ '--' /
+            '--'
+            _| |_
+           |  |  |
+           |  |  |
+           |_ | _|
+             |_|
+       
+       Om Namo Venkatesaya
+ """)
+name=input("enter your name:")
+print(f"{name<Govinda Govinda! Blessings}")
+print("Govinda Govinda!")

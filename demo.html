@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+</html>
+<body>
+    <head>
+<meta charset="UTf-8">
+<meta name="viewport" content="width=device-width",initial-scale=1.0">
+
+    <title>Feedback Form</title>
+
+    </head>
+</body>
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" required><br><br>
+
+<label for="rating" >Rating:</label>
+<select id="rating" name="rating" required>
+    <option value="">Select a rating</option>
+    <option value="5">5 - Excellent</option>
+    <option value="4">4 - Good</option>
+    <option value="3">3 - Average</option>
+    <option value="2">2 - Poor</option>
+    <option value="1">1 - Very Poor</option>
+</select><br><br>
+
+<label for="comment" >Comment:</label><br>
+<textarea id="comment" name="comment" required></textarea><br><br>
+<button type="Submit">Submit</button>
+
+<form>
+
+<script>
+    document.ElementById(feedbackform).addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const rating = document.getElementById('rating').value;
+        const comment = document.getElementById('comment').value;
+         document.getElementById("result").textContent =
+        `Thank you ${name} for rating us ${rating}/5.`;
+    })''
+  </script>
+
+</body>
+</html> 

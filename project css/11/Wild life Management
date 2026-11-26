@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wildlife Rescue Management</title>
+
+<!-- CSS -->
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f6ef;
+    color: #263b2d;
+}
+
+header {
+    background: #164b32;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+nav {
+    background: #286c48;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 15px;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: #dcebd9;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+section {
+    padding: 30px;
+    margin: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #216b42;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #12472b;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: #e4f0e2;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.card h3 {
+    font-size: 15px;
+}
+
+.card p {
+    font-size: 28px;
+    margin-top: 10px;
+    color: green;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background: #286c48;
+    color: white;
+}
+
+footer {
+    background: #164b32;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+@media(max-width: 650px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 7px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 Wildlife Rescue Management System</h1>
+    <p>Protect Wildlife | Save Nature</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#report">Report Case</a>
+    <a href="#cases">Rescue Cases</a>
+</nav>
+
+<section class="hero" id="home">
+    <h2>Save Wildlife, Save Nature</h2>
+    <p>Help injured animals through wildlife rescue reporting.</p>
+</section>
+
+<section id="dashboard">
+    <h2>Rescue Dashboard</h2>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Cases</h3>
+            <p id="total">0</p>
+        </div>
+
+        <div class="card">
+            <h3>New Cases</h3>
+            <p id="new">0</p>
+        </div>
+
+        <div class="card">
+            <h3>In Progress</h3>
+            <p id="progress">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Resolved</h3>
+            <p id="resolved">0</p>
+        </div>
+    </div>
+</section>
+
+<section id="report">
+    <h2>Report Animal Rescue Case</h2>
+
+    <form id="rescueForm">
+
+        <input type="text" id="reporter"
+        placeholder="Reporter Name" required>
+
+        <input type="text" id="animal"
+        placeholder="Animal Name" required>
+
+        <input type="text" id="location"
+        placeholder="Location" required>
+
+        <select id="urgency">
+            <option>Normal</option>
+            <option>High</option>
+            <option>Critical</option>
+        </select>
+
+        <textarea id="description"
+        placeholder="Animal Condition" required></textarea>
+
+        <button type="submit">Submit Report</button>
+
+    </form>
+</section>
+
+<section id="cases">
+    <h2>Rescue Case Records</h2>
+
+    <input type="text" id="search"
+    placeholder="Search animal or location">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Case ID</th>
+                <th>Animal</th>
+                <th>Location</th>
+                <th>Urgency</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="caseList"></tbody>
+    </table>
+</section>
+
+<footer>
+    <p>© 2026 Wildlife Rescue Management System</p>
+    <p>Protect Animals | Protect Nature</p>
+</footer>
+
+<!-- JavaScript -->
+<script>
+
+let cases = JSON.parse(
+    localStorage.getItem("wildlifeCases") || "[]"
+);
+
+const form = document.getElementById("rescueForm");
+
+function saveCases() {
+    localStorage.setItem(
+        "wildlifeCases",
+        JSON.stringify(cases)
+    );
+}
+
+function updateDashboard() {
+
+    document.getElementById("total").textContent =
+        cases.length;
+
+    document.getElementById("new").textContent =
+        cases.filter(c => c.status === "New").length;
+
+    document.getElementById("progress").textContent =
+        cases.filter(c => c.status === "In Progress").length;
+
+    document.getElementById("resolved").textContent =
+        cases.filter(c => c.status === "Resolved").length;
+}
+
+function displayCases() {
+
+    const list = document.getElementById("caseList");
+
+    const search = document.getElementById("search")
+        .value.toLowerCase();
+
+    list.innerHTML = "";
+
+    cases.filter(c =>
+        c.animal.toLowerCase().includes(search) ||
+        c.location.toLowerCase().includes(search)
+    ).forEach(c => {
+
+        const row = document.createElement("tr");
+
+        [c.id, c.animal, c.location, c.urgency]
+        .forEach(value => {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        const statusCell = document.createElement("td");
+        const select = document.createElement("select");
+
+        ["New", "In Progress", "Resolved"].forEach(status => {
+            const option = document.createElement("option");
+            option.value = status;
+            option.textContent = status;
+            select.appendChild(option);
+        });
+
+        select.value = c.status;
+
+        select.addEventListener("change", () => {
+            c.status = select.value;
+            saveCases();
+            updateDashboard();
+        });
+
+        statusCell.appendChild(select);
+        row.appendChild(statusCell);
+
+        const actionCell = document.createElement("td");
+        const deleteButton = document.createElement("button");
+
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", () => {
+            if (confirm("Delete this case?")) {
+                cases = cases.filter(item => item.id !== c.id);
+                saveCases();
+                displayCases();
+                updateDashboard();
+            }
+        });
+
+        actionCell.appendChild(deleteButton);
+        row.appendChild(actionCell);
+
+        list.appendChild(row);
+    });
+}
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const newCase = {
+        id: "WC-" + Date.now(),
+        reporter: document.getElementById("reporter").value,
+        animal: document.getElementById("animal").value,
+        location: document.getElementById("location").value,
+        urgency: document.getElementById("urgency").value,
+        description: document.getElementById("description").value,
+        status: "New"
+    };
+
+    cases.push(newCase);
+
+    saveCases();
+    displayCases();
+    updateDashboard();
+
+    alert("Rescue Case Submitted Successfully!");
+
+    form.reset();
+});
+
+document.getElementById("search")
+.addEventListener("input", displayCases);
+
+displayCases();
+updateDashboard();
+
+</script>
+
+</body>
+</html>

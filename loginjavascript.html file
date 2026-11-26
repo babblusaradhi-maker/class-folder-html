@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, intial-scale=1">
+        <title>Document</title>
+    </head>
+    <body>
+        UID:
+        <input type="text" id="uid" aria-valuetext="">
+        <br>
+        Password:
+        <input type="Password" id="pwd" name="pwd" value="">
+        <br>
+        <button type="button" onclick="login()">login</button>
+        <br>
+        <p id="output"></p>
+        <script>
+            function login()
+    {
+     let username=document.getElementById("uid").value;
+     let password=document.getElementById("pwd").value;
+     let result= (username=="ADMIN" && Password=="1245")
+    ? "login success" : "Check UID and PWD again";
+    document.getElementById("output").innerHTML="result"
+    }
+
+    </script>
+    <script>
+    {
+        
+
+
+
+
+
+    }
+    </script>
+    </html>
+

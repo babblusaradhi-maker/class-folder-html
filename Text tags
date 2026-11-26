@@ -1,0 +1,33 @@
+<DOCTYPE html>
+    ,<html>
+
+    </html>
+    <title>Text forming tags</title>
+
+        <head>
+<body>
+<p>This is <strong>very important</strong></p>
+<p> <b>Welcome to my world</b></p>
+<p>This is <i>very important</i></p>
+<p>This is <cite>very important</cite></p>
+<p>This is <mark>very important</mark></p>
+ <p>This is ,<small>very important</small></p>
+<P>THE <abbrtitle="Hyper TEXT Markup Language" >HTML</abbr> language is used for web pages</P>
+<p>my favorate player is <del>virat kohli</del></p>
+<P><sub>I'm Batman</sub></P>
+<P>This is<Q>It is not my first class </Q> </P>
+<P><blockquote>i can do this whole day</blockquote></P>
+
+</body>
+        </head>
+<area>Narendra modi</area>
+<p><audio>saregamapa</audio></p>
+<bdi>navigate</bdi>
+<HR>
+    <P><address>TO MY DEAR FATHER</address></P>
+    <P><canvas>THESE iS my important</canvas></P>
+    <p><datalist>hi,to my poower king allu arjun megza power star ram charan mansses kingb nagab arju</datalist></p>
+    <P><script>SCRiPT </script></P>
+
+    <hr>
+     

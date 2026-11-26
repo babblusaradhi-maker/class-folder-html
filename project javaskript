@@ -1,0 +1,183 @@
+const STORAGE_KEY = "wildlifeRescueCases";
+
+const starterCases = [
+  {
+    id: "WR-1001",
+    animal: "Indian peafowl",
+    location: "Mysuru outskirts",
+    team: "South Field Team",
+    priority: "High",
+    status: "In progress",
+    notes: "Wing injury reported"
+  },
+  {
+    id: "WR-1002",
+    animal: "Bonnet macaque",
+    location: "Nanjangud Road",
+    team: "Central Rescue Team",
+    priority: "Medium",
+    status: "Under treatment",
+    notes: "Being examined at the care centre"
+  },
+  {
+    id: "WR-1003",
+    animal: "Barn owl",
+    location: "Hunsur",
+    team: "West Field Team",
+    priority: "Low",
+    status: "Released",
+    notes: "Recovered and released safely"
+  }
+];
+
+const validStatuses = [
+  "Reported",
+  "In progress",
+  "Under treatment",
+  "Released"
+];
+
+const tableBody = document.getElementById("caseTableBody");
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const rescueForm = document.getElementById("rescueForm");
+const formMessage = document.getElementById("formMessage");
+
+let cases = loadCases();
+
+function loadCases() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : starterCases;
+  } catch (error) {
+    console.error("Could not load saved cases:", error);
+    return starterCases;
+  }
+}
+
+function saveCases() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cases));
+}
+
+function makeStatusClass(value) {
+  return value.replaceAll(" ", "-");
+}
+
+function renderCases() {
+  const searchTerm = searchInput.value.trim().toLowerCase();
+  const selectedStatus = statusFilter.value;
+
+  const visibleCases = cases.filter((rescue) => {
+    const searchableText =
+      `${rescue.id} ${rescue.animal} ${rescue.location} ${rescue.team}`.toLowerCase();
+
+    const matchesSearch = searchableText.includes(searchTerm);
+    const matchesStatus =
+      selectedStatus === "all" || rescue.status === selectedStatus;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  tableBody.innerHTML = visibleCases.map((rescue) => `
+    <tr>
+      <td><strong>${escapeHtml(rescue.id)}</strong></td>
+      <td>${escapeHtml(rescue.animal)}</td>
+      <td>${escapeHtml(rescue.location)}</td>
+      <td>${escapeHtml(rescue.team)}</td>
+      <td>
+        <span class="priority priority-${escapeHtml(rescue.priority)}">
+          ${escapeHtml(rescue.priority)}
+        </span>
+      </td>
+      <td>
+        <span class="status status-${makeStatusClass(escapeHtml(rescue.status))}">
+          ${escapeHtml(rescue.status)}
+        </span>
+      </td>
+      <td>
+        <label class="sr-only" for="status-${escapeHtml(rescue.id)}">
+          Update status for ${escapeHtml(rescue.id)}
+        </label>
+        <select class="status-select" id="status-${escapeHtml(rescue.id)}"
+                data-case-id="${escapeHtml(rescue.id)}">
+          ${validStatuses.map((status) => `
+            <option value="${escapeHtml(status)}"
+              ${rescue.status === status ? "selected" : ""}>
+              ${escapeHtml(status)}
+            </option>
+          `).join("")}
+        </select>
+      </td>
+    </tr>
+  `).join("");
+
+  document.getElementById("emptyMessage").hidden = visibleCases.length > 0;
+
+  document.getElementById("totalCases").textContent = cases.length;
+  document.getElementById("activeCases").textContent =
+    cases.filter((rescue) => rescue.status !== "Released").length;
+  document.getElementById("releasedCases").textContent =
+    cases.filter((rescue) => rescue.status === "Released").length;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => {
+    const replacements = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    };
+    return replacements[character];
+  });
+}
+
+searchInput.addEventListener("input", renderCases);
+statusFilter.addEventListener("change", renderCases);
+
+tableBody.addEventListener("change", (event) => {
+  const select = event.target.closest(".status-select");
+  if (!select) return;
+
+  const rescue = cases.find((item) => item.id === select.dataset.caseId);
+  if (!rescue || !validStatuses.includes(select.value)) return;
+
+  rescue.status = select.value;
+  saveCases();
+  renderCases();
+});
+
+rescueForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(rescueForm);
+  const newCase = {
+    id: `WR-${Date.now().toString().slice(-6)}`,
+    animal: formData.get("animal").trim(),
+    location: formData.get("location").trim(),
+    team: formData.get("team").trim(),
+    priority: formData.get("priority"),
+    status: "Reported",
+    notes: formData.get("notes").trim()
+  };
+
+  cases.unshift(newCase);
+  saveCases();
+  renderCases();
+  rescueForm.reset();
+
+  formMessage.textContent = `Rescue request ${newCase.id} was added.`;
+  window.setTimeout(() => {
+    formMessage.textContent = "";
+  }, 4000);
+});
+
+document.getElementById("newRescueButton").addEventListener("click", () => {
+  document.getElementById("requestSection").scrollIntoView({
+    behavior: "smooth"
+  });
+  rescueForm.elements.animal.focus();
+});
+
+renderCases();

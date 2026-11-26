@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wildlife Rescue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Wildlife Rescue Case Management</h1>
+    <p>Protect Wildlife | Save Animals</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#report">Report Case</a>
+    <a href="#cases">Rescue Cases</a>
+</nav>
+
+<section id="home">
+    <h2>Welcome to Wildlife Rescue</h2>
+    <p>Report injured animals and help protect wildlife.</p>
+</section>
+
+<section id="report">
+    <h2>Report Animal Rescue Case</h2>
+
+    <form id="rescueForm">
+        <input id="animal" placeholder="Animal Name" required>
+        <input id="location" placeholder="Location" required>
+
+        <select id="urgency">
+            <option>Normal</option>
+            <option>High</option>
+            <option>Critical</option>
+        </select>
+
+        <textarea id="description"
+        placeholder="Describe the situation" required></textarea>
+
+        <button type="submit">Submit Report</button>
+    </form>
+</section>
+
+<section id="cases">
+    <h2>Rescue Cases</h2>
+    <div id="caseList"></div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
+<index class="css">
+<body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5ef;
+}
+
+header {
+    background: #174d36;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+nav {
+    background: #286747;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 15px;
+}
+
+section {
+    background: white;
+    margin: 25px;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+input, select, textarea {
+    display: block;
+    width: 95%;
+    padding: 12px;
+    margin: 12px 0;
+}
+
+button {
+    background: #216442;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #123d28;
+}
+></body>
+</index>
+<index class="javascript">
+
+<const form = document.getElementById("rescueForm");
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let animal = document.getElementById("animal").value;
+    let location = document.getElementById("location").value;
+    let urgency = document.getElementById("urgency").value;
+    let description = document.getElementById("description").value;
+
+    let caseList = document.getElementById("caseList");
+
+    let newCase = document.createElement("div");></const>
+
+   < newCase.innerHTML = `
+        <h3>${animal}</h3>
+        <p>Location: ${location}</p>
+        <p>Urgency: ${urgency}</p>
+        <p>${description}</p>
+        <hr>
+    `;
+
+    caseList.appendChild(newCase);
+
+    alert("Rescue Case Submitted Successfully!");
+
+    form.reset();
+});
+
+</index>

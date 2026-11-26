@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device">
+    <title>MARVEL</title>
+
+<body> 
+    <h1>List of vegetable</h1>
+    <ol Reversed type="A" start="12">
+        <ul style="list-style-type: circle">
+     <LI>Tomato</LI>
+     <LI>potato<LI>
+     <LI>chille</LI>
+       </OL>
+       <a href="https.//www.Google.com"
+ target="_self"
+ title="click here to visit Google">
+Google </a><BR>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/78XNjVU-GYM?si=Th8wd7FRtxSbYlYk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<div id="Home"  style="background-color:cornflowerblue; height:400px;width:100%;">
+<a href="#Home">home |</a>
+<a href="#About">About |</a>
+<a href="#contact">contact</a>
+<hr>
+
+                                             
+
+</head>
+    </body>
+</html>
